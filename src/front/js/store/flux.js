@@ -52,6 +52,28 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ useredit: null });
         actions.loadProjects();
       },
+      //Todo Functions
+      loadTodos: async () => {
+        const store = getStore();
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        let options = {
+          headers: {
+            Authorization: "Bearer " + session?.token,
+          },
+        };
+        if (!session) {
+          options.headers = {};
+        }
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/todos`,
+          options
+        );
+        if (response.status === 200) {
+          const payload = await response.json();
+          setStore({ projects: payload });
+        }
+      },
     },
   };
 };
