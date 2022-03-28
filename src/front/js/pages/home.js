@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TaskList from "../component/tasklist";
+import { TaskList } from "../component/tasklist";
 
-const Home = () => {
+export const Home = () => {
   return (
     <div className="container-flex">
       <div className="pt-5 text-center mx-auto">
@@ -18,5 +18,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;
