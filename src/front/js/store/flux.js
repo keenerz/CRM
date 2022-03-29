@@ -74,6 +74,42 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ projects: payload });
         }
       },
+      saveTodoList: async (newTodos) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            name: project.name,
+            project_type: project.project_type,
+            project_stage: project.project_stage,
+            sale_type: project.sale_type,
+            region: project.region,
+            baseprice: project.baseprice,
+            estimated_ship: project.estimated_ship,
+            started_at: project.started_at,
+            ended_at: project.ended_at,
+            vendor_links: project.vendor_links,
+            discussion_links: project.discussion_links,
+            img_url: project.img_url,
+            description: project.description,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/projects`,
+          options
+        );
+        if (response.status === 200) {
+          const payload = await response.json();
+          console.log("project created successfully!");
+          actions.loadProjects();
+          return payload;
+        }
+      },
     },
   };
 };

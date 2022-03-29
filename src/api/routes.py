@@ -47,9 +47,8 @@ def create_todos():
     details = request.json.get('details', None)
     
     todos = Todos(todos=todos,
-                    project_type=project_type,
-                    creator=creator,
                     todo_type=todo_type,
+                    creator=creator,
                     stage=stage,
                     acceptance=acceptance,
                     due_date=due_date,
@@ -57,3 +56,50 @@ def create_todos():
     db.session.add(todos)
     db.session.commit()
     return jsonify(project.serialize())
+
+@api.route('/todos', methods=['PUT'])
+@jwt_required()
+def update_todo():
+    todoid = request.json.get('id')
+    todo = Todos.query.filter_by(id=todoid).first()
+    if todo is None:
+        return jsonify({"msg":"Item doesn't exist"}), 400
+    todos = request.json.get('todos')
+    todo_type = request.json.get('todo_type')
+    stage = request.json.get('stage')
+    acceptance = request.json.get('acceptance')
+    due_date = request.json.get('due_date')
+    details = request.json.get('details')
+
+    if todos is None or not todos:
+        todo.todos = todo.todos
+    else:
+        todo.todos = todos
+
+    if todo_type is None or not todo_type:
+        todo.todo_type = todo.todo_type
+    else:
+        todo.todo_type = todo_type
+
+    if stage is None or not stage:
+        todo.stage = todo.stage
+    else:
+        todo.stage = stage
+    
+    if acceptance is None or not acceptance:
+        todo.acceptance = todo.acceptance
+    else:
+        todo.acceptance = acceptance
+    
+    if due_date is None or not due_date:
+        todo.due_date = todo.due_date
+    else:
+        todo.due_date = due_date
+
+    if details is None or not details:
+        todo.details = todo.details
+    else:
+        todo.details = details
+
+    db.session.commit()
+    return jsonify(user.serialize())
