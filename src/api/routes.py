@@ -31,10 +31,71 @@ def get_user():
     if user_query is None:
         return jsonify({"msg": "User Not Found"}), 403
     email_get = user_query.email
-    username_get = user_query.username
-    return jsonify({"email": email_get, "username": username_get})
+    return jsonify({"email": email_get})
+
+@api.route('/user', methods=['POST'])
+def create_user():
+    email = request.json.get('email')
+    password = request.json.get('password')
+    usertype = request.json.get('usertype')
+    user = User(email=email, password=password, usertype=usertype)
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(user.serialize())
+
+@api.route('/user', methods=['DELETE'])
+@jwt_required()
+def delete_user():
+    email = request.json.get('email')
+    password = request.json.get('password')
+    usertype = request.json.get('usertype')
+    user = User.query.filter_by(email=email, password=password, usertype=usertype).first()
+    if user is None: 
+        return jsonify({"msg": "Invalid user"}), 400
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({ "msg": "User Deleted"}), 200
+
+@api.route('/user', methods=['PUT'])
+@jwt_required()
+def update_user():
+    current_user_id = get_jwt_identity()
+    user = User.query.filter_by(id=current_user_id).first()
+    if user is None:
+        return jsonify({"msg":"User doesn't exist"}), 400
+    email = request.json.get('email')
+    password = request.json.get('password')
+    usertype = request.json.get('usertype')
+    phone = request.json.get('phone')
+
+    if email is None or not email:
+        user.email = user.email
+    else:
+        user.email = email
+
+    if password is None or not password:
+        user.password = user.password
+    else:
+        user.password = password
+    
+    if usertype is None or not usertype:
+        user.usertype = user.usertype
+    else:
+        user.usertype = usertype
+ 
+    db.session.commit()
+    return jsonify(user.serialize())
+
 
 #Todo Endpoints
+@api.route('/todos', methods=['GET'])
+@jwt_required()
+def get_task():
+    user_id = get_jwt_identity()
+    todos_query = Todos.query.all()
+    all_serialized_project = list(map(lambda item:item.serialize(), todos_query))
+    return jsonify(all_serialized_project)
+
 @api.route('/todos', methods=['POST'])
 @jwt_required()
 def create_todos():
