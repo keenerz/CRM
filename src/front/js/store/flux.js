@@ -56,12 +56,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         const session = actions.getCurrentSession();
         let options = {
           headers: {
-            Authorization: "Bearer " + session?.token,
+            Authorization: "Bearer " + session.token,
           },
         };
-        if (!session) {
-          options.headers = {};
-        }
         const response = await fetch(
           process.env.BACKEND_URL + `/api/todos`,
           options

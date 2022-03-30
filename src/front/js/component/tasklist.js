@@ -86,6 +86,95 @@ export const TaskList = () => {
         </div>
       </div>
       <div id="list">
+        <h4>Not Done</h4>
+        <ul>
+          {list.map((singleTask, i) => {
+            return (
+              <li
+                className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
+                  singleTask.done ? "done" : ""
+                }`}
+                key={i}
+              >
+                {singleTask.label}{" "}
+                <div className="theButtons">
+                  <div
+                    className="listDone"
+                    onClick={() => {
+                      let newList = [...list];
+                      newList[i].done = !newList[i].done;
+                      setList(newList);
+                      saveTodoList(newList);
+                    }}
+                  >
+                    <i className="fas fa-check"></i>
+                  </div>
+                  <div
+                    className="listDelete"
+                    onClick={() => {
+                      setList(list.filter((deleteTask, j) => j !== i));
+                      saveTodoList(list.filter((deleteTask, j) => j !== i));
+                    }}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="ps-3 py-2 fw-light text-start" id="footer">
+          <span id="footerText">
+            {list.length} {list.length === 1 ? "item" : "items"} left
+          </span>
+        </div>
+      </div>
+      <div id="list">
+        <h4>In Progress</h4>
+        <ul>
+          {list.map((singleTask, i) => {
+            return (
+              <li
+                className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
+                  singleTask.done ? "done" : ""
+                }`}
+                key={i}
+              >
+                {singleTask.label}{" "}
+                <div className="theButtons">
+                  <div
+                    className="listDone"
+                    onClick={() => {
+                      let newList = [...list];
+                      newList[i].done = !newList[i].done;
+                      setList(newList);
+                      saveTodoList(newList);
+                    }}
+                  >
+                    <i className="fas fa-check"></i>
+                  </div>
+                  <div
+                    className="listDelete"
+                    onClick={() => {
+                      setList(list.filter((deleteTask, j) => j !== i));
+                      saveTodoList(list.filter((deleteTask, j) => j !== i));
+                    }}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="ps-3 py-2 fw-light text-start" id="footer">
+          <span id="footerText">
+            {list.length} {list.length === 1 ? "item" : "items"} left
+          </span>
+        </div>
+      </div>
+      <div id="list">
+        <h4>Done</h4>
         <ul>
           {list.map((singleTask, i) => {
             return (
