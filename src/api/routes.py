@@ -66,7 +66,6 @@ def update_user():
     email = request.json.get('email')
     password = request.json.get('password')
     usertype = request.json.get('usertype')
-    phone = request.json.get('phone')
 
     if email is None or not email:
         user.email = user.email
