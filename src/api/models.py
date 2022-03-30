@@ -34,7 +34,6 @@ class Todos(db.Model):
     updated_at = db.Column(db.DateTime(timezone=False), nullable=True, onupdate=datetime.utcnow)
     user = db.relationship(User)
 
-
     def serialize(self):
         return {
             "id": self.id,
@@ -47,3 +46,6 @@ class Todos(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }
+
+    def __repr__(self):
+        return f'user {self.creator}'
