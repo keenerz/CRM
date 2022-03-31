@@ -42,7 +42,19 @@ export const TaskList = () => {
   };
 
   const notDoneFilter = (tasks) => {
-    if (list.stage === "notdone") {
+    if (tasks.stage === "notdone") {
+      return false;
+    }
+  };
+
+  const inProgressFilter = (tasks) => {
+    if (tasks.stage === "inprogress") {
+      return false;
+    }
+  };
+
+  const doneFilter = (tasks) => {
+    if (tasks.stage === "done") {
       return false;
     }
   };
@@ -110,7 +122,7 @@ export const TaskList = () => {
       <div id="list">
         <h4>Not Done</h4>
         <ul>
-          {list.map((singleTask, i) => {
+          {list.filter(notDoneFilter).map((singleTask, i) => {
             return (
               <li
                 className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
@@ -123,7 +135,7 @@ export const TaskList = () => {
                   <select
                     className="feedback-input-selector"
                     aria-label=""
-                    value={todotype}
+                    value={store.todos.todotype}
                     onChange={(e) => {
                       setTodotype(e.target.value);
                     }}
@@ -136,7 +148,7 @@ export const TaskList = () => {
                   <select
                     className="feedback-input-selector"
                     aria-label=""
-                    value={stage}
+                    value={store.todos.stage}
                     onChange={(e) => {
                       setStage(e.target.value);
                     }}
@@ -149,7 +161,7 @@ export const TaskList = () => {
                   <select
                     className="feedback-input-selector"
                     aria-label=""
-                    value={acceptance}
+                    value={store.todos.acceptance}
                     onChange={(e) => {
                       setAcceptance(e.target.value);
                     }}
@@ -195,7 +207,7 @@ export const TaskList = () => {
       <div id="list">
         <h4>In Progress</h4>
         <ul>
-          {list.map((singleTask, i) => {
+          {list.filter(inProgressFilter).map((singleTask, i) => {
             return (
               <li
                 className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
@@ -239,7 +251,7 @@ export const TaskList = () => {
       <div id="list">
         <h4>Done</h4>
         <ul>
-          {list.map((singleTask, i) => {
+          {list.filter(doneFilter).map((singleTask, i) => {
             return (
               <li
                 className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
