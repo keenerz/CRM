@@ -28,7 +28,7 @@ export const TaskList = () => {
           },
         ]);
         setTask("");
-        saveTodoList([
+        actions.saveTodoList([
           ...list,
           {
             todos: task,
@@ -38,6 +38,12 @@ export const TaskList = () => {
           },
         ]);
       }
+    }
+  };
+
+  const notDoneFilter = (tasks) => {
+    if (list.stage === "notdone") {
+      return false;
     }
   };
 
