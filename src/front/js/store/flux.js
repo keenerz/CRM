@@ -47,7 +47,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         const actions = getActions();
         localStorage.removeItem("session");
         setStore({ session: null });
-        actions.loadProjects();
       },
       //Todo Functions
       loadTodos: async () => {
@@ -93,7 +92,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status === 200) {
           const payload = await response.json();
           console.log("project created successfully!");
-          actions.loadProjects();
+          actions.loadTodos();
           return payload;
         }
       },

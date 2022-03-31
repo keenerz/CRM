@@ -18,9 +18,25 @@ export const TaskList = () => {
         setTask("");
       } else {
         setTask(e.target.value);
-        setList([...list, { label: task, done: false }]);
+        setList([
+          ...list,
+          {
+            todos: task,
+            todotype: todotype,
+            stage: stage,
+            acceptance: acceptance,
+          },
+        ]);
         setTask("");
-        saveTodoList([...list, { label: task, done: false }]);
+        saveTodoList([
+          ...list,
+          {
+            todos: task,
+            todotype: todotype,
+            stage: stage,
+            acceptance: acceptance,
+          },
+        ]);
       }
     }
   };
@@ -97,6 +113,47 @@ export const TaskList = () => {
                 key={i}
               >
                 {singleTask.label}{" "}
+                <div className="selectors">
+                  <select
+                    className="feedback-input-selector"
+                    aria-label=""
+                    value={todotype}
+                    onChange={(e) => {
+                      setTodotype(e.target.value);
+                    }}
+                  >
+                    <option value="">Todo Type</option>
+                    <option value="bug/issue">Bug/Issue</option>
+                    <option value="feature">Feature</option>
+                    <option value="improvements">Improvements</option>
+                  </select>
+                  <select
+                    className="feedback-input-selector"
+                    aria-label=""
+                    value={stage}
+                    onChange={(e) => {
+                      setStage(e.target.value);
+                    }}
+                  >
+                    <option value="">Stage</option>
+                    <option value="notdone">Not Done</option>
+                    <option value="inprogress">In Progress</option>
+                    <option value="done">Done</option>
+                  </select>
+                  <select
+                    className="feedback-input-selector"
+                    aria-label=""
+                    value={acceptance}
+                    onChange={(e) => {
+                      setAcceptance(e.target.value);
+                    }}
+                  >
+                    <option value="">Acceptance</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="furtherreview">Further Review Needed</option>
+                  </select>
+                </div>
                 <div className="theButtons">
                   <div
                     className="listDone"
